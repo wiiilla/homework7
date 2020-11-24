@@ -19,22 +19,18 @@ function gettingJSON() {
 	// Your code here.
 	fah_checkbox = document.querySelector("#fahrenheit").checked;
 	cel_checkbox = document.querySelector("#celcius").checked;
-	if (fah_checkbox == 1 && cel_checkbox == 0) {
-		format = 'imperial';
-	} else if (fah_checkbox == 0 && cel_checkbox == 1) {
+	if (fah_checkbox == 0 && cel_checkbox == 1) {
 		format = 'metric';
 	} else {
 	format = 'imperial';
 	}
-	console.log(fah_checkbox);
-	console.log(cel_checkbox);
 	console.log("Format is " + format);
 
 	//set the query  
 	let query;
 	// Your code here.  
 	api_key = "7bfa5200d359cc416d596cd3958b72d5";
-
+	query = 'https://api.openweathermap.org/data/2.5/weather?q='+ location +'&appid='+api_key+'&units='+format;
 	console.log("Query is :" + query);
 
 	//Create and set variables for each of the elements you
@@ -44,13 +40,21 @@ function gettingJSON() {
 	let temp;
 	let tempImg;
 	// Your code here.
-
+	document.getElementById('forecast').style.display = "block"
+	loc = document.getElementById('loc')
+	temp = document.getElementById('temp')
+	tempImg = document.getElementById('tempImg')
 
 	$.getJSON(query, function (json) {
 		//Use returned json to update the values of the three 
 		//elements in HTML.  
 		//I would print the JSON to the console
 		// Your code here.
-
+		console.log(JSON.stringify(json));
+		loc.innerHTML = json.name
+		temp.innerHTML = json.main.temp + ' with ' + json.weather[0].description
+		tempImg.src = "http://openweathermap.org/img/wn/"+ json.weather[0].icon +"@2x.png"
+		tempImg.alt = "Weather icon for "+ json.weather[0].description
+		tempImg.title = "Weather Icon"
 	});
 }
